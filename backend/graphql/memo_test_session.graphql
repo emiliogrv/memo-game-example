@@ -1,0 +1,45 @@
+extend type Query {
+  memoTestSession(id: ID! @whereKey @rules(apply: ["uuid"])): MemoTestSession @find
+}
+
+extend type Mutation {
+  createMemoTestSession(input: CreateMemoTestSessionInput! @spread): DefTestMemoSessionResult
+  updateMemoTestSessionRetries(input: UpdateMemoTestSessionRetriesInput! @spread): DefTestMemoSessionResult
+  completeMemoTestSession(id: ID! @whereKey @rules(apply: ["uuid"])): DefTestMemoSessionResult
+}
+
+enum MemoTestSessionState {
+  STARTED
+  COMPLETED
+}
+
+type MemoTestSession {
+  id: ID!
+
+  retries: Int!
+  numberOfPairs: Int! @rename(attribute: "number_of_pairs")
+  state: MemoTestSessionState!
+
+  createdAt: DateTime! @rename(attribute: "created_at")
+  updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+input CreateMemoTestSessionBelongsTo {
+  connect: ID! @rules(apply: ["uuid"])
+}
+
+input CreateMemoTestSessionInput {
+  test: CreateMemoTestSessionBelongsTo!
+}
+
+input UpdateMemoTestSessionRetriesInput {
+  id: ID! @rules(apply: ["uuid"])
+
+  retries: Int! @rules(apply: ["integer", "min:1"])
+}
+
+type DefTestMemoSessionResult {
+  recordID: ID
+  record: MemoTestSession
+  query: Query
+}

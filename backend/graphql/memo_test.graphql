@@ -1,0 +1,40 @@
+#import memo_test_image.graphql
+
+extend type Query {
+  memoTest(id: ID! @whereKey @rules(apply: ["uuid"])): MemoTest @find
+  memoTests: [MemoTest!]! @paginate(defaultCount: 50, maxCount: 100)
+}
+
+extend type Mutation {
+  createMemoTest(input: CreateMemoTestInput! @spread): DefTestMemoResult
+  updateMemoTest(input: UpdateMemoTestInput! @spread): DefTestMemoResult
+  deleteMemoTest(id: ID! @whereKey @rules(apply: ["uuid"])): DefTestMemoResult
+}
+
+type MemoTest {
+  id: ID!
+
+  name: String!
+  images: [MemoTestImage!]! @hasMany
+
+  createdAt: DateTime! @rename(attribute: "created_at")
+  updatedAt: DateTime! @rename(attribute: "updated_at")
+}
+
+input CreateMemoTestInput {
+  name: String!
+  images: CreateMemoTestImagesHasMany!
+}
+
+input UpdateMemoTestInput {
+  id: ID! @rules(apply: ["uuid"])
+
+  name: String
+  images: UpdateMemoTestImagesHasMany
+}
+
+type DefTestMemoResult {
+  recordID: ID
+  record: MemoTest
+  query: Query
+}

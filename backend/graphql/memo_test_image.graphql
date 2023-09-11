@@ -1,0 +1,25 @@
+type MemoTestImage {
+  id: ID!
+
+  url: String!
+}
+
+input CreateMemoTestImagesHasMany {
+  create: [CreateMemoTestImageInput!]!
+}
+
+input UpdateMemoTestImagesHasMany {
+  create: [CreateMemoTestImageInput!]
+  update: [UpdateMemoTestImageInput!]
+  delete: [ID!] @rulesForArray(apply: ["uuid"])
+}
+
+input CreateMemoTestImageInput {
+  url: String! @rules(apply: ["url"])
+}
+
+input UpdateMemoTestImageInput {
+  id: ID! @rules(apply: ["uuid"])
+
+  url: String! @rules(apply: ["url"])
+}

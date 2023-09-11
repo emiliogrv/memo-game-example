@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card-group-flippable {
+  perspective: 2000px;
+}
+
+.card-flippable {
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+
+.card-flippable-face {
+  backface-visibility: hidden;
+}
+
+.card-flippable-face-back {
+  transform: rotateY(180deg);
+}
+
+.card-flippable.is-flipped {
+  transform: rotateY(180deg);
+}
