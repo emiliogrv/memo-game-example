@@ -14,7 +14,6 @@ const config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testEnvironment: 'jest-environment-jsdom',
   testTimeout: 10000,
-  collectCoverage: true,
   coveragePathIgnorePatterns: [
     '/node_modules/',
     '<rootDir>/__tests__',

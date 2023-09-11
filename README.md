@@ -49,15 +49,20 @@ To get started with **Memo test game**, follow these steps:
     cd frontend && npm install && cd ..
     ```
 
-5. Build and run the Docker containers:
+5. Generate Laravel key:
+
+    ```bash
+    cd backend/ && php artisan key:generate && cd ..
+    ```
+
+6. Build and run the Docker containers:
+   This command will start the Laravel backend, Next.js frontend, and PostgreSQL database containers.
 
     ```bash
     docker-compose up --build
     ```
 
-   This command will start the Laravel backend, Next.js frontend, and PostgreSQL database containers.
-
-6. Running the Application
+7. Running the Application
 
    Once the Docker containers are running and the dependencies are installed, you can access the application:
 
@@ -66,6 +71,50 @@ To get started with **Memo test game**, follow these steps:
     // NOTE: there is a GraphQL UI available to try in http://localhost/graphiql
    
     - Next.js Frontend: http://localhost:3000
+    ```
+
+8. Migrating database
+
+    ```bash
+    backend/vendor/bin/sail artisan migrate:fresh --seed
+    // NOTE: you can use the sail alias if you configured it before. See point 5 below.
+    ```
+
+   or you can connect to the laravel container and run:
+
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+
+9. Testing
+
+- Backend
+
+    ```bash
+    backend/vendor/bin/sail artisan test
+    // NOTE: you can use the sail alias if you configured it before. See point 5 below.
+    ```
+
+  or you can connect to the laravel container and run:
+
+    ```bash
+    php artisan test
+    ```
+
+  Coverage can be done adding the flag `--coverage` at the end
+    ```bash
+    php artisan test --coverage
+    ```
+
+- Frontend
+
+    ```bash
+    cd frontend && npm run test && cd ..
+    ```
+
+  Coverage test can be done using
+    ```bash
+    cd frontend && npm run test:ci && cd ..
     ```
 
 ## Good to know
